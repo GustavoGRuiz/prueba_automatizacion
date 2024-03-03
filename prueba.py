@@ -102,7 +102,7 @@ for i in range (2,46):
         obs_input.clear()
         obs_input.send_keys(observacion)
         time.sleep(0.2)
-    #Enviar
+    #BtnEnviar
         submit_input=wait.until(condicion.presence_of_element_located ((By.ID, 'submit')))
         submit_input.click()
         print("Datos enviados")
@@ -110,7 +110,7 @@ for i in range (2,46):
         smtp_server= "smtp.gmail.com"
         smtp_port= 587
         smtp_user= "gustavoge.ruiz@gmail.com"
-        smtp_pass= "nnivstipnshiixdy"
+        smtp_pass= "contraseña"
         asunto= "Información auditoria"
         body= (f"{responsable}. Buenos días.\n\n El presente es para consultar las gestiones respecto del Proceso {proceso}. \n Para mayor información se le indican los siguientes datos" 
         f"\n\n Proceso: {proceso}."
@@ -119,18 +119,18 @@ for i in range (2,46):
         f"\n Fecha de compromiso: {fecha_compromiso}."
         f"\n\n Aguardamos sus novedades. Saludos.")
         
-        destino_prueba= 'gustavoge.ruiz@gmail.com'
+        destino= correo
         mensaje= MIMEText(body)
         mensaje['Subject'] = asunto
         mensaje['From']=smtp_user
-        mensaje['To'] = destino_prueba
+        mensaje['To'] = destino
 
         with smtplib.SMTP(smtp_server, smtp_port) as server:
             server.starttls()
             server.login(smtp_user, smtp_pass)
-            server.sendmail(smtp_user, destino_prueba, mensaje.as_string())
+            server.sendmail(smtp_user, destino, mensaje.as_string())
         
-        print (f"Correo enviado a {destino_prueba}")
+        print (f"Correo enviado a {destino}")
 
     
     print ("Proceso terminado")
