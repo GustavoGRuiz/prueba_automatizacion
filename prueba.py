@@ -8,6 +8,8 @@ from selenium.webdriver.support import expected_conditions as condicion
 from selenium.webdriver.common.by import By
 import xlwings as wx
 import openpyxl
+import smtplib
+from email.mime.text import MIMEText
 import datetime as date
 import time
 
@@ -35,8 +37,8 @@ for i in range (2,46):
     area=hoja[f'H{i}'].value
     correo=hoja[f'I{i}'].value
     estado=hoja[f'J{i}'].value
-    if (estado == 'Regularizado'):
     #Cominezo a migrar a las cajas de texto del fomrulario
+    if (estado == 'Regularizado'):
     #Proceso
         proc_menudropdown= wait.until(condicion.presence_of_element_located((By.ID, 'process')))
         time.sleep(0.01)
@@ -103,7 +105,33 @@ for i in range (2,46):
     #Enviar
         submit_input=wait.until(condicion.presence_of_element_located ((By.ID, 'submit')))
         submit_input.click()
+        print("Datos enviados")
+    elif (estado =='Atrasado'):
+        smtp_server= "smtp.gmail.com"
+        smtp_port= 587
+        smtp_user= "gustavoge.ruiz@gmail.com"
+        smtp_pass= "nnivstipnshiixdy"
+        asunto= "Información auditoria"
+        body= (f"{responsable}. Buenos días.\n\n El presente es para consultar las gestiones respecto del Proceso {proceso}. \n Para mayor información se le indican los siguientes datos" 
+        f"\n\n Proceso: {proceso}."
+        f"\n Estado: {estado}." 
+        f"\n Observación: {observacion}."
+        f"\n Fecha de compromiso: {fecha_compromiso}."
+        f"\n\n Aguardamos sus novedades. Saludos.")
+        
+        destino_prueba= 'gustavoge.ruiz@gmail.com'
+        mensaje= MIMEText(body)
+        mensaje['Subject'] = asunto
+        mensaje['From']=smtp_user
+        mensaje['To'] = destino_prueba
+
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(smtp_user, smtp_pass)
+            server.sendmail(smtp_user, destino_prueba, mensaje.as_string())
+        
+        print (f"Correo enviado a {destino_prueba}")
+
+    
+    print ("Proceso terminado")
     driver.quit()
-    print("Datos enviados")
-
-
