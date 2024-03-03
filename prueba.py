@@ -105,12 +105,14 @@ for i in range (2,46):
     #BtnEnviar
         submit_input=wait.until(condicion.presence_of_element_located ((By.ID, 'submit')))
         submit_input.click()
-        print("Datos enviados")
+        print("Datos cargados al formulario")
     elif (estado =='Atrasado'):
+    #Configuración
         smtp_server= "smtp.gmail.com"
         smtp_port= 587
         smtp_user= "gustavoge.ruiz@gmail.com"
         smtp_pass= "contraseña"
+    #Mensaje
         asunto= "Información auditoria"
         body= (f"{responsable}. Buenos días.\n\n El presente es para consultar las gestiones respecto del Proceso {proceso}. \n Para mayor información se le indican los siguientes datos" 
         f"\n\n Proceso: {proceso}."
@@ -118,20 +120,16 @@ for i in range (2,46):
         f"\n Observación: {observacion}."
         f"\n Fecha de compromiso: {fecha_compromiso}."
         f"\n\n Aguardamos sus novedades. Saludos.")
-        
         destino= correo
         mensaje= MIMEText(body)
         mensaje['Subject'] = asunto
         mensaje['From']=smtp_user
         mensaje['To'] = destino
-
+    #Conexión. Envío
         with smtplib.SMTP(smtp_server, smtp_port) as server:
             server.starttls()
             server.login(smtp_user, smtp_pass)
             server.sendmail(smtp_user, destino, mensaje.as_string())
-        
         print (f"Correo enviado a {destino}")
-
-    
     print ("Proceso terminado")
     driver.quit()
