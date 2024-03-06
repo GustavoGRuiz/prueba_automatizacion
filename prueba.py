@@ -17,8 +17,8 @@ import time
 path='d:/Usuario/Desktop/chrome_path/chromedriver-win64/chromedriver.exe'
 servicioschrome= Service(path)
 driver = webdriver.Chrome(service=servicioschrome)
-#driver.get("https://roc.myrb.io/s1/forms/M6I8P2PDOZFDBYYG")
-#wait = WebDriverWait(driver,10)
+driver.get("https://roc.myrb.io/s1/forms/M6I8P2PDOZFDBYYG")
+wait = WebDriverWait(driver,10)
 doc_excel="d:/Usuario/Desktop/Base Seguimiento Observ Auditoría al_30042021.xlsx"
 app= wx.App(visible=False)
 workbook= app.books.open(doc_excel)
@@ -30,8 +30,6 @@ hoja= workbook.sheets['Hoja1']
 
 def CargarFormulario():
     #Proceso
-            driver.get("https://roc.myrb.io/s1/forms/M6I8P2PDOZFDBYYG")
-            wait = WebDriverWait(driver,10)
             proc_menudropdown= wait.until(condicion.presence_of_element_located((By.ID, 'process')))
             time.sleep(0.01)
             if(proceso =='Operaciones'):
@@ -63,10 +61,10 @@ def CargarFormulario():
                 time.sleep(0.2)
                 time.sleep(0.5)
     #Riesgo
-                tipo_riesgo_input=wait.until(condicion.presence_of_element_located((By.ID, 'tipo_riesgo'))) #Doble parentesis porque es una tupla, sino lo toma como 2 args distintos.
-                tipo_riesgo_input.clear()
-                tipo_riesgo_input.send_keys(tipo_riesgo)
-                time.sleep(0.2)
+            tipo_riesgo_input=wait.until(condicion.presence_of_element_located((By.ID, 'tipo_riesgo'))) #Doble parentesis porque es una tupla, sino lo toma como 2 args distintos.
+            tipo_riesgo_input.clear()
+            tipo_riesgo_input.send_keys(tipo_riesgo)
+            time.sleep(0.2)
     #Severidad
             severidad_menudropdown= wait.until(condicion.presence_of_element_located((By.ID, 'severidad')))
             if(severidad not in ['Medio', 'Alto']): #No se por qué no me toma la == así que uso una no pertenencia.
